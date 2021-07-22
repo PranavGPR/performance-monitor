@@ -4,20 +4,25 @@ import "./App.css";
 import socket from "./utilities/socketConnection";
 import Widget from "./Widget";
 
-console.log(socket);
-
 function App() {
   const [performanceData, setPerformanceData] = useState({});
 
   useEffect(() => {
     socket.on("data", (data) => {
-      console.log(data);
+      setPerformanceData((old) => {
+        old[data.macA] = data;
+        return {
+          ...old,
+        };
+      });
     });
   });
 
   return (
     <div className='App'>
-      <Widget />
+      {Object.values(performanceData).map((value, index) => {
+        return <Widget key={index} data={value} />;
+      })}
     </div>
   );
 }

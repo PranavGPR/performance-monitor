@@ -21,6 +21,7 @@ socket.on("connect", () => {
 
   let perfDataInterval = setInterval(() => {
     performanceData().then((data) => {
+      data.macA = macA;
       socket.emit("perfData", data);
     });
   }, 1000);
