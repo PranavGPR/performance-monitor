@@ -6,8 +6,12 @@ socket.on("connect", () => {
   const nI = os.networkInterfaces();
   let macA;
   for (let key in nI) {
-    if (!nI[key][1].internal) {
-      macA = nI[key][0].mac;
+    if (!nI[key][0].internal) {
+      if (nI[key][0].mac === "00:00:00:00:00:00") {
+        macA = Math.random().toString(36).substr(2, 15);
+      } else {
+        macA = nI[key][0].mac;
+      }
       break;
     }
   }
@@ -45,6 +49,7 @@ function performanceData() {
     const numCores = cpus.length;
 
     const cpuLoad = await getCpuLoad();
+    const isActive = true;
     resolve({
       freeMem,
       totalMem,
@@ -56,6 +61,7 @@ function performanceData() {
       numCores,
       cpuSpeed,
       cpuLoad,
+      isActive,
     });
   });
 }

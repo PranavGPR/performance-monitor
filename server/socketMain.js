@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { UI_KEY, CLIENT_KEY, MONGO_URL } = process.env;
+const { MONGO_URL } = process.env;
 
 const mongoose = require("mongoose");
 mongoose.connect(MONGO_URL, {
@@ -19,15 +19,29 @@ function socketMain(io, socket) {
     } else if (key === "sFhdkFeuwE34nhsd5Jb") {
       socket.join("ui");
       console.log("A react client has joined");
+      Machine.find({}, (err, docs) => {
+        docs.forEach((doc) => {
+          doc.isActive = false;
+          io.to("ui").emit("data", doc);
+        });
+      });
     } else {
       socket.disconnect(true);
     }
   });
 
+  socket.on("disconnect", () => {
+    Machine.find({ macA }, (err, docs) => {
+      if (docs.length > 0) {
+        docs[0].isActive = false;
+        io.to("ui").emit("data", docs[0]);
+      }
+    });
+  });
+
   socket.on("initPerfData", async (data) => {
     macA = data.macA;
     const res = await checkAndAdd(data);
-    console.log(res);
   });
 
   socket.on("perfData", (data) => {

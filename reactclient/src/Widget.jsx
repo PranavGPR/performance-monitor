@@ -12,7 +12,7 @@ function Widget(props) {
     macA,
     memUsage,
     numCores,
-    // isActive,
+    isActive,
     osType,
     totalMem,
     upTime,
@@ -26,8 +26,14 @@ function Widget(props) {
   const mem = { totalMem, usedMem, memUsage, freeMem, memWidgetId };
   const info = { macA, osType, upTime, cpuModel, numCores, cpuSpeed };
 
+  let notActiveDiv = "";
+  if (!isActive) {
+    notActiveDiv = <div className='not-active'>Offline</div>;
+  }
+
   return (
-    <div>
+    <div className='widget col-sm-12'>
+      {notActiveDiv}
       <Cpu cpuData={cpu} />
       <Mem memData={mem} />
       <Info infoData={info} />
