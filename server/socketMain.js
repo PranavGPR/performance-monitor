@@ -14,10 +14,11 @@ function socketMain(io, socket) {
   let macA;
 
   socket.on("clientAuth", (key) => {
-    if (key === CLIENT_KEY) {
+    if (key === "328y4iu32rkuj3gfhg") {
       socket.join("clients");
-    } else if (key === UI_KEY) {
+    } else if (key === "sFhdkFeuwE34nhsd5Jb") {
       socket.join("ui");
+      console.log("A react client has joined");
     } else {
       socket.disconnect(true);
     }
@@ -30,7 +31,7 @@ function socketMain(io, socket) {
   });
 
   socket.on("perfData", (data) => {
-    console.log(data);
+    io.to("ui").emit("data", data);
   });
 }
 
