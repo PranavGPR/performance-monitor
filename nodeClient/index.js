@@ -3,7 +3,23 @@ const io = require("socket.io-client");
 let socket = io("http://localhost:5000");
 
 socket.on("connect", () => {
-  console.log("Connected to socket server!");
+  const nI = os.networkInterfaces();
+  let macA;
+  for (let key in nI) {
+    if (!nI[key][1].internal) {
+      macA = nI[key][0].mac;
+      break;
+    }
+  }
+  // client auth with single key value
+  socket.emit("clientAuth", "328y4iu32rkuj3gfhg");
+
+  let perfDataInterval = setInterval(() => {
+    performanceData().then((data) => {
+      // console.log(data);
+      socket.emit("perfData", data);
+    });
+  }, 1000);
 });
 
 function performanceData() {
@@ -64,7 +80,3 @@ function getCpuLoad() {
     });
   }, 100);
 }
-
-performanceData().then((data) => {
-  console.log(data);
-});
