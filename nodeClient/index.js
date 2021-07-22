@@ -1,4 +1,10 @@
 const os = require("os");
+const io = require("socket.io-client");
+let socket = io("http://localhost:5000");
+
+socket.on("connect", () => {
+  console.log("Connected to socket server!");
+});
 
 function performanceData() {
   return new Promise(async (resolve, reject) => {
