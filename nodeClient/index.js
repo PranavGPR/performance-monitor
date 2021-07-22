@@ -16,10 +16,13 @@ socket.on("connect", () => {
 
   let perfDataInterval = setInterval(() => {
     performanceData().then((data) => {
-      // console.log(data);
       socket.emit("perfData", data);
     });
   }, 1000);
+
+  socket.on("disconnect", () => {
+    clearInterval(perfDataInterval);
+  });
 });
 
 function performanceData() {
