@@ -28,7 +28,6 @@ function Widget(props) {
 
   return (
     <div>
-      <h1>Widget</h1>
       <Cpu cpuData={cpu} />
       <Mem memData={mem} />
       <Info infoData={info} />
