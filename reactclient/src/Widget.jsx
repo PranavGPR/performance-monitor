@@ -1,6 +1,7 @@
 import Cpu from "./Cpu";
 import Info from "./Info";
 import Mem from "./Mem";
+import "./widget.css";
 
 function Widget(props) {
   const {
@@ -11,7 +12,7 @@ function Widget(props) {
     macA,
     memUsage,
     numCores,
-    isActive,
+    // isActive,
     osType,
     totalMem,
     upTime,
